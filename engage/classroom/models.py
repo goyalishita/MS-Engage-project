@@ -1,0 +1,65 @@
+from django.db import models
+from django.utils import timezone
+
+from django.contrib.auth.models import User
+
+
+class Course(models.Model):
+    # user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    course_name = models.CharField(max_length=100)
+    # course_image = models.ImageField(upload_to='media')
+    # teacher_name = models.CharField(max_length=50)
+    # teacher_details = models.TextField()
+    course_description = models.TextField()
+    created_at = models.DateField(default=timezone.now)
+    end_date = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.course_name
+
+class Student(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    firstname=models.CharField(max_length=200,null=True)
+    lastname=models.CharField(max_length=200,null=True)
+    email=models.CharField(max_length=200,null=True)
+    studentid = models.CharField(max_length=200,null=True)
+    date_created=models.DateTimeField(auto_now_add=True,null=True)
+    
+    def __str__(self):
+        return str(self.firstname)
+
+class Teacher(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    firstname=models.CharField(max_length=200,null=True)
+    lastname=models.CharField(max_length=200,null=True)
+    email=models.CharField(max_length=200,null=True)
+    teacherid = models.CharField(max_length=200,null=True)
+    date_created=models.DateTimeField(auto_now_add=True,null=True)
+    
+    def __str__(self):
+        return str(self.firstname)
+
+class Assignment(models.Model):
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course,on_delete=models.CASCADE,null=True)
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    marks = models.CharField(max_length=20)
+    duration = models.CharField(max_length=100)
+    created_at = models.DateTimeField(default=timezone.now())
+    file = models.FileField(upload_to='assignments',null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+class AssignmentSubmission(models.Model):
+    assignment = models.ForeignKey(Assignment,on_delete=models.CASCADE,null=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE,null = True)
+    name = models.CharField(max_length=100)
+    university_id = models.CharField(max_length=100)
+    content = models.TextField(null=True, blank=True)
+    file = models.FileField(upload_to='submissions/',null=True, blank=True)
+
+    def __str__(self):
+        return self.university_id
+

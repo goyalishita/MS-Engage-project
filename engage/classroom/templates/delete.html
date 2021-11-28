@@ -1,0 +1,20 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<br>
+<br>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-body">
+            <p>Are you sure you want to delete "{{pizza}}"</p>
+               <form method="POST" action="{% url 'deletePizza' pizza.id %}">
+               {% csrf_token %}
+               <a class="btn btn-danger" href="{% url 'home' %}">Cancel</a>
+               <input class="btn btn-primary" type="submit" name="confirm">
+               </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

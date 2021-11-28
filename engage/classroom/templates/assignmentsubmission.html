@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+{% load static%}
+{% block content %}
+<head>
+    <style>
+          form{
+            border:4px solid black;
+            margin: 0 auto;
+            padding: 40px;
+            width: fit-content;
+        }
+    </style>
+</head>
+<form action="" method="POST" enctype="multipart/form-data">
+    <h4>{{assignment.title}}</h4>
+    <p>Duration:{{assignment.duration}}</p>
+    <span>Marks:{{assignment.marks}}</span>
+    <p>
+        {{assignment.content}}
+    </p>
+    <a class="btn btn-sm btn-info" href= "{{assign.file.url}}" download> download assignment </a>
+          <br><br>                     
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" class="btn btn-success" value="submit">
+</form>
+{% endblock %}
